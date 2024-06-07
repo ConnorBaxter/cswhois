@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "cswhois",
+  "description": "Lookup CS2 players in other databases",
+  "version": "0.0.1",
+  "icons": {
+    "64": "icons/icon.png"
+  },
+  "web_accessible_resources": [
+    "page-content/db-directory.html",
+    "icons/faceit.png",
+    "icons/leetify.png" 
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://steamcommunity.com/id/*"],
+      "js": ["content_script.js"]
+    }
+  ]
+}
