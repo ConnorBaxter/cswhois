@@ -17,6 +17,7 @@ jobs:
         uses: kewisch/action-web-ext@v1.0
         with:
           cmd: lint
+          verbose: true
 
       - name: Pack
         uses: kewisch/action-web-ext@v1.0

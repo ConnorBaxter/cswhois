@@ -14,7 +14,7 @@
     "*://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/*"
   ],
   "icons": {
-    "64": "icons/icon.png"
+    "256": "icons/icon.png"
   },
   "options_ui": {
     "page": "options/options.html"
