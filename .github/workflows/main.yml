@@ -1,7 +1,39 @@
-- name: Firefox Addon Action
-  # uses: trmcnvn/firefox-addon@0d05671269b82c69c3f22ed86d8e772e89d47cf4
-  uses: trmcnvn/firefox-addon@v1
-  with:
-    uuid: # todo
-    manifest: manifest.json
-          
+name: "Lint + Pack + Release"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    name: "Lint + Pack + Release"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Lint
+        uses: kewisch/action-web-ext@v1.0
+        with:
+          cmd: lint
+          verbose: true
+
+      - name: Pack
+        uses: kewisch/action-web-ext@v1.0
+        with:
+          cmd: build
+          artifacts: publish
+          verbose: true
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+            
