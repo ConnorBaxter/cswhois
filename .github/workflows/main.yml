@@ -1,0 +1,7 @@
+- name: Firefox Addon Action
+  # uses: trmcnvn/firefox-addon@0d05671269b82c69c3f22ed86d8e772e89d47cf4
+  uses: trmcnvn/firefox-addon@v1
+  with:
+    uuid: # todo
+    manifest: manifest.json
+          
