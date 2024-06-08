@@ -24,9 +24,7 @@
         const contentDoc = new DOMParser().parseFromString(contentHtml, 'text/html');
 
         const siteManager = new SiteManager(steamId, contentDoc);
-        await siteManager.AddFaceit();
-        await siteManager.AddLeetify();
-        await siteManager.AddCsstats();
+        await siteManager.AddAllEnabled(await getEnabledSites());
 
         const content = await siteManager.Build();
         return content.body;
@@ -58,6 +56,13 @@
         }
     }
 
+    async function getEnabledSites(){
+        const settingsObj = await browser.storage.sync.get();
+        const sitesList = settingsObj.sites;
+
+        return sitesList;
+    }
+
     async function getVanityUrlFromUrl(url) {
         const idsegRegExp = /(\/id\/[A-z]*\/)/;
 
@@ -72,4 +77,3 @@
         console.log(`[cswhois] ${error}`);
     }
 })();
-

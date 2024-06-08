@@ -23,9 +23,7 @@
     "page-content/sites.html",
     "page-content/error.html",
 
-    "icons/faceit.png",
-    "icons/leetify.png",
-    "icons/csstats.png"
+    "icons/*.png"
   ],
   "content_scripts": [
     {

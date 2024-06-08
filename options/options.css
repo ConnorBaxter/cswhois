@@ -1,0 +1,31 @@
+body {
+  font-family: "Open Sans Light", sans-serif;
+  font-size: 0.9em;
+  font-weight: 300;
+  padding: 10px;
+  
+  color: white;
+  background-color: #23222b;
+}
+
+form {
+  margin: auto;
+  width: 50%;
+  border: 2px solid rgba(249,249,250,0.2);
+  padding: 10px;
+}
+
+td {
+  text-align: right;
+  float: right;
+  border-bottom: 1px solid rgba(249,249,250,0.2);
+}
+
+.keyInput {
+  width: 100%;
+}
+
+.centerButton {
+  margin: auto;
+  text-align: center;
+}

@@ -1,13 +1,28 @@
 <!doctype html>
+
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <title>cswhois option</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="options.css">
   </head>
 
   <body>
-    <form>
-      <label>Steam API Key: <input type="text" id="steamApiKey" name="steamApiKey" /></label>
-      <button type="submit">Save</button>
+    <form class="centerButton data-types">
+      <label>Steam API Key: <input type="password" class="keyInput" id="steamApiKey" name="steamApiKey"/></label>
+      <table>
+        <thead>
+          <tr><th>Display button:</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><label>Leetify<input type="checkbox" checked="checked" data-type="leetifyEnabled"/></label></td></tr>
+          <tr><td><label>Faceit<input type="checkbox" checked="checked" data-type="faceitEnabled"/></label></td></tr>
+          <tr><td><label>CsStats<input type="checkbox" checked="checked" data-type="csstatsEnabled"/></label></td></tr>
+          <tr><td><label>SteamRep<input type="checkbox" checked="checked" data-type="steamrepEnabled"/></label></td></tr>
+          <tr><td><label>CsFloat<input type="checkbox" checked="checked" data-type="csfloatEnabled"/></label></td></tr>
+        </tbody>
+      </table>
+      <button class="saveButton" type="submit">Save</button>
     </form>
     <script src="options.js"></script>
   </body>

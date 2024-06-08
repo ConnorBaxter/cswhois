@@ -1,7 +1,23 @@
 function saveOptions(e) {
     e.preventDefault();
+
+    function getTypes() {
+        let dataTypes = [];
+        const checkboxes = document.querySelectorAll(".data-types [type=checkbox]");
+        for (let item of checkboxes) {
+            if (item.checked) {
+                dataTypes.push(item.getAttribute("data-type"));
+            }
+        }
+
+        return dataTypes;
+    }
+
+    var siteTypes = getTypes();
+
     browser.storage.sync.set({
         steamApiKey: document.querySelector("#steamApiKey").value,
+        sites: siteTypes
     });
 }
 
@@ -10,12 +26,29 @@ function restoreOptions() {
         document.querySelector("#steamApiKey").value = result.steamApiKey || "";
     }
 
+    function setCheckBoxes(result){
+
+        onError(JSON.stringify(result));
+
+        const checkboxes = document.querySelectorAll(".data-types [type=checkbox]");
+        for (let item of checkboxes) {
+            if (result.sites.indexOf(item.getAttribute("data-type")) != -1) {
+                item.checked = true;
+            } else {
+                item.checked = false;
+            }
+        }
+    }
+
     function onError(error) {
-        console.log(`Error: ${error}`);
+        console.log(`[cswhois options]: ${error}`);
     }
 
     let getting = browser.storage.sync.get("steamApiKey");
     getting.then(setCurrentChoice, onError);
+
+    let checkboxGetting = browser.storage.sync.get();
+    checkboxGetting.then(setCheckBoxes, onError);
 }
 
 document.addEventListener("DOMContentLoaded", restoreOptions);

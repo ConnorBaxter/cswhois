@@ -10,6 +10,26 @@ class SiteManager
         this.Doc = document;
     }
     
+    async AddAllEnabled(enabledSites) {
+        if(enabledSites.includes("leetifyEnabled")) {
+            await this.#addLeetify();
+        }
+        if(enabledSites.includes("faceitEnabled")) {
+            await this.#addFaceit();
+        }
+        if(enabledSites.includes("csstatsEnabled")) {
+            await this.#addCsstats();
+        }
+        if(enabledSites.includes("steamrepEnabled")) {
+            await this.#addStemRep();
+        }
+        if(enabledSites.includes("csfloatEnabled")) {
+            await this.#addCsFloat();
+        }
+
+        return this;
+    }
+
     async Build(){
         return this.Doc;
     }
@@ -25,18 +45,28 @@ class SiteManager
         return this;
     }
     
-    async AddLeetify(){
+    async #addLeetify(){
         const leetifyUrl = `https://leetify.com/app/profile/${this.SteamId}`;
         return await this.#addSite("leetify", leetifyUrl);
     }
     
-    async AddFaceit(){
+    async #addFaceit(){
         const faceitUrl = `https://faceitfinder.com/profile/${this.SteamId}`;
         return await this.#addSite("faceit", faceitUrl);
     }
     
-    async AddCsstats(){
+    async #addCsstats(){
         const csstatsUrl = `https://csstats.gg/player/${this.SteamId}`;
         return await this.#addSite("csstats", csstatsUrl);
+    }
+
+    async #addStemRep() {
+        const steamRepUrl = `https://steamrep.com/search?q=${this.SteamId}`;
+        return await this.#addSite("steamrep", steamRepUrl);
+    }
+
+    async #addCsFloat() {
+        const csfloatUrl = `https://csfloat.com/db?min=0&max=1&steamId=${this.SteamId}`;
+        return await this.#addSite("csfloat", csfloatUrl);
     }
 }
