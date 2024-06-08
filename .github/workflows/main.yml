@@ -1,4 +1,4 @@
-name: "Lint + Pack"
+name: "Lint + Pack + Release"
 on:
   push:
     branches:
@@ -7,9 +7,12 @@ on:
 
 jobs:
   lint:
-    name: "Lint + Pack"
+    name: "Lint + Pack + Release"
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Lint
         uses: kewisch/action-web-ext@v1.0
         with:
