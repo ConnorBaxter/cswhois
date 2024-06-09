@@ -39,7 +39,15 @@
     }
 
     async function getSteamId(url) {
-        try {
+        async function getVanityUrlFromUrl(url) {
+            const idSegRegExp = /(\/id\/[A-z]*\/)/;
+            const idVanity = idSegRegExp.exec(url)[0];
+            const vanity = idVanity.split('/')[2];
+
+            return vanity;
+        }
+
+        async function getSteamIdFromVanity(url) {
             const apiKeyObj = await browser.storage.sync.get("steamApiKey");
             const apiKey = apiKeyObj.steamApiKey;
 
@@ -47,7 +55,30 @@
             const getIdUrl = `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${apiKey}&vanityurl=${vanityUrl}`
 
             const response = (await (await fetch(getIdUrl)).json());
-            const steamId = response.response.steamid;
+            return response.response.steamid;
+        }
+
+        async function isVanityUrl(url) {
+            const idSegRegExp = /(\/id\/[A-z]*\/)/;
+            return idSegRegExp.test(url);
+        }
+
+        async function getSteamIdFromUrl(url) {
+            const idSegRegExp = /(\/profiles\/\d*\/)/;
+            const profileSteamId = idSegRegExp.exec(url)[0];
+            const steamId = profileSteamId.split('/')[2];
+
+            return steamId;
+        }
+
+        try {
+            let steamId;
+
+            if(await isVanityUrl(url)) {
+                steamId = await getSteamIdFromVanity(url);
+            } else {
+                steamId = await getSteamIdFromUrl(url);
+            }
 
             return steamId;
         } catch (ex) {
@@ -61,16 +92,6 @@
         const sitesList = settingsObj.sites;
 
         return sitesList;
-    }
-
-    async function getVanityUrlFromUrl(url) {
-        const idsegRegExp = /(\/id\/[A-z]*\/)/;
-
-        const idVanity = idsegRegExp.exec(url)[0];
-
-        const vanity = idVanity.split('/')[2];
-
-        return vanity;
     }
 
     async function onError(error) {
