@@ -27,7 +27,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://steamcommunity.com/id/*"],
+      "matches": ["https://steamcommunity.com/id/*", "https://steamcommunity.com/profiles/*"],
       "js": ["sites/site-manager.js", "content_script.js"]
     }
   ]
