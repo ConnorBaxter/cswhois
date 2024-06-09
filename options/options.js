@@ -27,9 +27,6 @@ function restoreOptions() {
     }
 
     function setCheckBoxes(result){
-
-        onError(JSON.stringify(result));
-
         const checkboxes = document.querySelectorAll(".data-types [type=checkbox]");
         for (let item of checkboxes) {
             if (result.sites.indexOf(item.getAttribute("data-type")) != -1) {
