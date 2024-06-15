@@ -16,6 +16,7 @@
         const steamId = await getSteamId(window.location + "/");
 
         if(!steamId){
+            await onError("Failed to get steamId. Probably no API key set.", "getHtmlContent");
             return await getErrorHtmlContent();
         }
 
@@ -44,6 +45,8 @@
             const idVanity = idSegRegExp.exec(url)[0];
             const vanity = idVanity.split('/')[2];
 
+            await onError("Vanity: " + vanity, "getSteamId:getVanityUrlFromUrl");
+
             return vanity;
         }
 
@@ -55,6 +58,8 @@
             const getIdUrl = `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${apiKey}&vanityurl=${vanityUrl}`
 
             const response = (await (await fetch(getIdUrl)).json());
+
+            await onError("Api response: " + JSON.stringify(response.response), "getSteamId:getSteamIdFromVanity");
             return response.response.steamid;
         }
 
@@ -68,6 +73,8 @@
             const profileSteamId = idSegRegExp.exec(url)[0];
             const steamId = profileSteamId.split('/')[2];
 
+            await onError("Steam id from url: " + steamId, "getSteamId:getSteamIdFromUrl");
+
             return steamId;
         }
 
@@ -75,14 +82,16 @@
             let steamId;
 
             if(await isVanityUrl(url)) {
+                await onError("Url contained vanity string", "getSteamId");
                 steamId = await getSteamIdFromVanity(url);
             } else {
+                await onError("Url contained steamid", "getSteamId");
                 steamId = await getSteamIdFromUrl(url);
             }
 
             return steamId;
         } catch (ex) {
-            await onError(ex);
+            await onError(ex, "getSteamId");
             return undefined;
         }
     }
@@ -94,7 +103,18 @@
         return sitesList;
     }
 
-    async function onError(error) {
-        console.log(`[cswhois] ${error}`);
+    async function onError(error, functionName)
+    {
+        const settingsObj = await browser.storage.sync.get();
+        if(settingsObj.debugMode) {
+            let message;
+            if (typeof functionName === 'undefined') {
+                message = `[cswhois] ${error}`
+            } else {
+                message = `[cswhois (${functionName})] ${error}`
+            }
+
+            console.log(message);
+        }
     }
 })();

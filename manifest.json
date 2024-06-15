@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "cswhois",
   "description": "Lookup CS2 players in other databases",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "browser_specific_settings": {
     "gecko": {
       "id": "extension@cswho.is",

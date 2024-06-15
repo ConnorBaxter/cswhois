@@ -17,6 +17,7 @@ function saveOptions(e) {
 
     browser.storage.sync.set({
         steamApiKey: document.querySelector("#steamApiKey").value,
+        debugMode: document.querySelector("#debugMode").checked,
         sites: siteTypes
     });
 }
@@ -24,6 +25,7 @@ function saveOptions(e) {
 function restoreOptions() {
     function setCurrentChoice(result) {
         document.querySelector("#steamApiKey").value = result.steamApiKey || "";
+        document.querySelector("#debugMode").checked = result.debugMode || false;
     }
 
     function setCheckBoxes(result){
@@ -41,7 +43,7 @@ function restoreOptions() {
         console.log(`[cswhois options]: ${error}`);
     }
 
-    let getting = browser.storage.sync.get("steamApiKey");
+    let getting = browser.storage.sync.get();
     getting.then(setCurrentChoice, onError);
 
     let checkboxGetting = browser.storage.sync.get();
