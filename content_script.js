@@ -13,6 +13,19 @@
     divToInsertContent.appendChild(container);
 
     async function getHtmlContent() {
+        async function getErrorHtmlContent(){
+            const dbDirContent = browser.runtime.getURL("page-content/error.html");
+            const content = (await (await fetch(dbDirContent)).text());
+            const contentDoc = new DOMParser().parseFromString(content, 'text/html');
+
+            return contentDoc.body;
+        }
+
+        async function getEnabledSites(){
+            const settingsObj = await browser.storage.sync.get();
+            return settingsObj.sites;
+        }
+
         const steamId = await getSteamId(window.location + "/");
 
         if(!steamId){
@@ -29,14 +42,6 @@
 
         const content = await siteManager.Build();
         return content.body;
-    }
-
-    async function getErrorHtmlContent(){
-        const dbDirContent = browser.runtime.getURL("page-content/error.html");
-        const content = (await (await fetch(dbDirContent)).text());
-        const contentDoc = new DOMParser().parseFromString(content, 'text/html');
-
-        return contentDoc.body;
     }
 
     async function getSteamId(url) {
@@ -94,13 +99,6 @@
             await onError(ex, "getSteamId");
             return undefined;
         }
-    }
-
-    async function getEnabledSites(){
-        const settingsObj = await browser.storage.sync.get();
-        const sitesList = settingsObj.sites;
-
-        return sitesList;
     }
 
     async function onError(error, functionName)
