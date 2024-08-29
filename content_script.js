@@ -46,7 +46,7 @@
 
     async function getSteamId(url) {
         async function getVanityUrlFromUrl(url) {
-            const idSegRegExp = /(\/id\/[A-z\-]*\/)/g;
+            const idSegRegExp = /(\/id\/[A-z0-9\-]*\/)/g;
             const idVanity = idSegRegExp.exec(url)[0];
             const vanity = idVanity.split('/')[2];
 
@@ -69,7 +69,7 @@
         }
 
         async function isVanityUrl(url) {
-            const idSegRegExp = /(\/id\/[A-z\-]*\/)/g;
+            const idSegRegExp = /(\/id\/[A-z0-9\-]*\/)/g;
             return idSegRegExp.test(url);
         }
 
